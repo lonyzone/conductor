@@ -4,8 +4,13 @@ dependencies {
 	compile "redis.clients:jedis:${revJedis}"
 	compile "com.google.inject:guice:${revGuice}"
 	compile "com.netflix.dyno:dyno-core:${revDynoCore}"
-	compile "com.netflix.dyno:dyno-jedis:${revDynoJedis}"
- 	compile "com.netflix.dyno-queues:dyno-queues-redis:${revDynoQueues}"
+	compile ("com.netflix.dyno:dyno-jedis:${revDynoJedis}") {
+		exclude group:"redis.clients", module:"jedis"
+	}
+ 	compile ("com.netflix.dyno-queues:dyno-queues-redis:${revDynoQueues}") {
+ 		exclude group:"com.netflix.dyno", module:"dyno-jedis"
+		exclude group:"com.netflix.dyno", module:"dyno-core"
+	}
 
 	//In memory redis for unit testing
  	testCompile "org.rarefiedredis.redis:redis-java:${revRarefiedRedis}"
